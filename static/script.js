@@ -56,7 +56,9 @@ const fetchMovieInfo = async (movieTitle) => {
               releaseDate: movieInfo.Released,
               thumbnailUrl: movieInfo.Poster,
               plot: movieInfo.Plot,
-              imdbRating: movieInfo.imdbRating
+              imdbRating: movieInfo.imdbRating,
+              id: movieId,
+              stars: 0,
             };
             moviesInfo.push(movie);
           } else {

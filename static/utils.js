@@ -15,7 +15,6 @@ const notLoadMsg = (err) => {
     const txt = document.querySelector(".movies-error")
     if (err){
         txt.style.display = "block";
-        txt.innerText = err;
     }else{
         txt.style.display = "none";
     }
@@ -81,9 +80,12 @@ const infoKey = (value) =>{
        return undefined;
    }
 }
-const createMovieElement = (title, thumbnail) => {
+const createMovieElement = (title, thumbnail,id) => {
+
     const movieDiv = document.createElement('div');
     movieDiv.classList.add('movie');
+    movieDiv.id = "m-"+id;
+   
 
     const img = document.createElement('img');
     img.classList.add('movie-img');
@@ -102,9 +104,34 @@ const createMovieElement = (title, thumbnail) => {
     return movieDiv;
 }
 
-const addMovieToList = (title, thumbnail) => {
+const pointerEventsMovies = (mode) => {
+    const moviesDiv = document.querySelector('.movies-list');
+    if (mode === null || mode === undefined) {
+        moviesDiv.style.pointerEvents = "none";
+        moviesDiv.style.opacity = "0.5";
+    }else{
+        moviesDiv.style.pointerEvents = "auto";
+        moviesDiv.style.opacity = "1";
+    }
+};
+
+const addMovieToList = (movie) => {
     const moviesList = document.querySelector('.movies-list');
-    const movieElement = createMovieElement(title, thumbnail);
+    const movieElement = createMovieElement(movie.title,movie.thumbnailUrl,movie.id);
+    createPopup(movie.title,movie.plot, movie.id);
+    movieElement.addEventListener('click', () => {
+      console.log(movie.id);
+      pointerEventsMovies(null);
+        let popup = document.getElementById("popup-"+movie.id);
+
+        console.log(popup);
+        popup.style.display = "flex";
+        popup.classList.add('fade-in');
+        setTimeout(() => {
+          popup.classList.remove('fade-in');
+        }, 1000);
+    });
+
     moviesList.appendChild(movieElement);
     movieElement.classList.add('fade-in');
     setTimeout(() => {
@@ -113,13 +140,112 @@ const addMovieToList = (title, thumbnail) => {
 }
 
 const addNewMovies = async (moviesObj) => {
-    const moviesInfo = await getMoviesInfo(moviesObj);
-    moviesInfo.forEach((movie) => {
-        addMovieToList(movie.title, movie.thumbnailUrl);
+  moviesObj.forEach((movie) => {
+        addMovieToList(movie);
     });
 }
 
 const clearMovies = () => {
     const moviesList = document.querySelector('.movies-list');
+    movies = []
     moviesList.innerHTML = '';
 }
+
+function createStar(mark, id) {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.id = 'star-'+id;
+  svg.classList.add('star');
+  svg.classList.add('star-marked');
+  svg.setAttribute('mark', mark);
+  svg.setAttribute('viewBox', '0 0 24 24');
+  svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  svg.setAttribute('clip-rule', 'evenodd');
+  svg.setAttribute('fill', '#FFF');
+  svg.setAttribute('stroke-miterlimit', '2');
+  svg.setAttribute('stroke-linejoin', 'round');
+
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.setAttribute('d', 'm11.322 2.923c.126-.259.39-.423.678-.423.289 0 .552.164.678.423.974 1.998 2.65 5.44 2.65 5.44s3.811.524 6.022.829c.403.055.65.396.65.747 0 .19-.072.383-.231.536-1.61 1.538-4.382 4.191-4.382 4.191s.677 3.767 1.069 5.952c.083.462-.275.882-.742.882-.122 0-.244-.029-.355-.089-1.968-1.048-5.359-2.851-5.359-2.851s-3.391 1.803-5.359 2.851c-.111.06-.234.089-.356.089-.465 0-.825-.421-.741-.882.393-2.185 1.07-5.952 1.07-5.952s-2.773-2.653-4.382-4.191c-.16-.153-.232-.346-.232-.535 0-.352.249-.694.651-.748 2.211-.305 6.021-.829 6.021-.829s1.677-3.442 2.65-5.44z');
+  path.setAttribute('fill-rule', 'nonzero');
+
+  svg.appendChild(path);
+  return svg;
+}
+
+const starActivate = (index,id) => {
+  const stars = document.querySelectorAll("#"+'star-'+id);
+  stars.forEach((star, i) => {
+      if (i <= index) {
+          star.classList.remove('star');
+          star.classList.add('star-marked');
+      } else {
+        star.classList.add('star')
+          star.classList.remove('star-marked');
+      }
+  });
+}
+
+const confirmRate = (id) => {
+  const parent = document.querySelector('#popup-'+id);
+  const stars = document.querySelectorAll("#"+'star'+id);
+  let mark = 0;
+  stars.forEach((star, i) => {
+      if (star.classList.contains('star-marked')) {
+          mark = i + 1;
+      }
+  });
+  
+  const movieIndex = movies.findIndex((movie) => movie.id === id);
+  movies[movieIndex].stars = mark;
+  console.log(movies,movies[movieIndex]);
+  parent.style.display = "none";
+  pointerEventsMovies(true);
+  
+};
+
+function createPopup(title, desc, id) {
+  const popupDiv = document.createElement('div');
+  popupDiv.id = "popup-"+id;
+  popupDiv.classList.add('popup');
+
+  const h1 = document.createElement('h1');
+  h1.textContent = `Rate the film "${title}"`;
+
+  const rateDesc = document.createElement('p');
+  rateDesc.classList.add('rate-desc');
+  rateDesc.textContent = desc;
+
+  const starsDiv = document.createElement('div');
+  starsDiv.classList.add('stars');
+  for (let i = 0; i < 5; i++) {
+      const starSVG = createStar(0, id); 
+      starsDiv.appendChild(h1)
+      starsDiv.appendChild(starSVG);
+      starSVG.addEventListener('click', () => {
+          starActivate(i,id);
+      });
+  }
+
+
+  const rateError = document.createElement('p');
+  rateError.classList.add('rate-error');
+  rateError.textContent = 'You must rate the film';
+
+  const confirmBtn = document.createElement('button');
+  confirmBtn.classList.add('rate-btn');
+  confirmBtn.textContent = 'Confirm';
+  confirmBtn.addEventListener('click', () => confirmRate(id))
+
+  popupDiv.appendChild(h1);
+  popupDiv.appendChild(rateDesc);
+  popupDiv.appendChild(starsDiv);
+  popupDiv.appendChild(rateError);
+  popupDiv.appendChild(confirmBtn);
+
+
+  popupDiv.style.display = "none";
+  document.querySelector(".rate-popup").appendChild(popupDiv);
+ 
+}
+
+

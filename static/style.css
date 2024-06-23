@@ -46,14 +46,106 @@ img, button, input, select, textarea {
     position: fixed;
     width: 100%;
     height: 100%;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     background-color: #020305;
+    z-index: 999;
+}
+
+.rate-popup {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    pointer-events: none;
     z-index: 9999;
 }
 
+.rate-popup .popup {
+    display: flex;
+    pointer-events: all;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    min-width: 50%;
+    width: 50%;
+    max-width: 50%;
+    border-radius: 18px;
+    box-shadow: 0 0 10px rgb(9, 10, 9);
+    background-color: #000000;
+    text-align: center;  
+    outline: #6b4ec9 solid .1em;
+    z-index: 9999;
+}
 
+.rate-popup .rate-desc {
+    font-family: "Mona-light";
+    max-width: 100%;
+    word-wrap: break-word;
+    margin-bottom: 1rem; 
+    z-index: 9999;
+}
+
+.stars {
+    display: flex;
+    gap: .4rem;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+.star-marked {
+    fill: #f0c929;
+    width: 4rem;
+    height: 4rem;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+
+.star {
+    fill: rgba(224, 215, 255, 0.228);
+    width: 4rem;
+    height: 4rem;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+
+
+
+.star:hover {
+    transform: scale(1.1) rotate(35deg);
+}
+
+.star:active {
+    transform: scale(.7) rotate(-35deg);
+}
+
+.rate-btn {
+    padding: 1rem 5rem;
+    background-color: #3712b3;
+    outline: #452a9f solid .1em;
+    box-shadow: #290e82 0px 0px 10px 0px;
+    color: #fff;
+    border: none;
+    width: 70%;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: "Mona-bold";
+    transition: 0.3s ease-in-out;
+}
+
+.rate-btn:hover {
+    background-color: #6b4ec9; 
+}
+
+.rate-btn:active {
+    transform: scale(.95);
+}
 
 .fade-in {
     animation: fadeIn 1.3s ease-in-out;
