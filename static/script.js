@@ -1,4 +1,5 @@
 movies = [];
+recommendations = []; 
 
 const loadConfigs = () => {
     configs = {
@@ -85,8 +86,10 @@ const noOpnion = () => {
   
 
 const att = () =>{
+    const moviesBtn = document.querySelector('.movies-btn');
     const regenBtn = document.querySelector('.regen');
     regenBtn.addEventListener('click',noOpnion);
+    moviesBtn.addEventListener('click',confirmRates )
 }
 
 const callNewMovies = () => {

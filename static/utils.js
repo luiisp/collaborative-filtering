@@ -126,10 +126,10 @@ const addMovieToList = (movie) => {
 
         console.log(popup);
         popup.style.display = "flex";
-        popup.classList.add('fade-in');
+        popup.classList.add('fast-in');
         setTimeout(() => {
-          popup.classList.remove('fade-in');
-        }, 1000);
+          popup.classList.remove('fast-in');
+        }, 500);
     });
 
     moviesList.appendChild(movieElement);
@@ -200,7 +200,31 @@ const confirmRate = (id) => {
   console.log(movies,movies[movieIndex]);
   parent.style.display = "none";
   pointerEventsMovies(true);
+};
+
+const confirmRates = () => {
+  if (movies.length === 0) {
+      return;
+  }
+
+  const sendObj = movies.map((movie) => {
+      return {
+          id: movie.id,
+          stars: movie.stars || 0
+      };
+  });
+
+  console.table(sendObj);
+  clearMovies();
   
+  popupDisplayAndHide("up",wait=.3, {title: "Your preferences are great, now we are going to recommend you some things"}).then((res) => {
+    if (recommendations.length === 0) {
+        popupDisplayAndHide("up",wait=.3, {title: "Visit the official repository at github.com/luiisp/collaborative-filtering"}).then((res) => {
+            msgsDisplayBooks("This is taking longer than expected");
+        });
+    }
+});
+
 };
 
 function createPopup(title, desc, id) {
