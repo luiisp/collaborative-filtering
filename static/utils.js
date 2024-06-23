@@ -58,3 +58,17 @@ const popup = (type, mode, args = {}) => {
   if (!modes.includes(mode)) throw new Error("Invalid popup mode");
   return popupTypes[type](mode, args);
 };
+
+const updateTitle = (title) => {
+    const split = document.title.split(" : ");
+    document.title = split[0] + " : " + title;
+    }
+
+const infoKey = (value) =>{
+   const i = document.getElementById(value);
+   if (i) {
+       return i.getAttribute('value') || undefined;
+   }else{
+       return undefined;
+   }
+}

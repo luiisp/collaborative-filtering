@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, render_template
+from cf.main import get_random_movie_ids
 import os
 import dotenv
 
@@ -7,6 +8,7 @@ dotenv.load_dotenv()
 SERVER_PORT = os.getenv('SERVER_PORT', 8000)
 API_VERSION = os.getenv('API_VERSION', 'development')
 API_PATH = f'/api/{API_VERSION}'
+API_KEY = os.getenv('API_KEY', 'development')
 
 
 app = Flask(__name__)
@@ -15,13 +17,12 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html', api=API_PATH)
+    return render_template('index.html', api=API_PATH, key=API_KEY) 
 
-@app.route(f'{API_PATH}/movies/random', methods=['POST'])
+@app.route(f'{API_PATH}/movies/random', methods=['GET'])
 def process_data():
-    data = request.get_json()
-    response = {'message': 'ok'}
-    return jsonify(response)
+    count = request.args.get('count', 3, type=int)
+    return jsonify(get_random_movie_ids(count))
 
 if __name__ == '__main__':
     print({
