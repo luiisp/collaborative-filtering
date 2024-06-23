@@ -1,3 +1,17 @@
+const popupDisplayAndHide = (type,wait, args = {}) => {
+    
+    return new Promise((resolve, reject) => {
+        const time = popup(type, "in", args);
+        setTimeout(() => {
+            const animTime = popup(type, "out", args)
+            setTimeout(() => {
+                resolve(true);
+            }, animTime);
+        }, time + (wait * 1000));
+    });
+} 
+
+
 const up = (mode, args) => {
   const { title = "Default", load = false } = args;
   const popup = document.querySelector(".up");
