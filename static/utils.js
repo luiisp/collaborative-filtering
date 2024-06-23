@@ -9,6 +9,10 @@ const up = (mode, args) => {
   } else if (loader) {
     loader.style.display = "none";
   }
+  const times = {
+    in: 1900,
+    out: 500,
+  }
 
   titleUp.innerText = title;
   if (mode === "in") {
@@ -16,13 +20,18 @@ const up = (mode, args) => {
     popup.classList.add("fade-in");
     setTimeout(() => {
       popup.classList.remove("fade-in");
-    }, 800);
+    }, times.in);
+    return times.in;
   } else if (mode === "out") {
     popup.classList.add("fade-out");
     setTimeout(() => {
       popup.classList.remove("fade-out");
       popup.style.display = "none";
-    }, 800);
+    }, times.out);
+    return times.out;
+  }else if (mode === "none") {
+    popup.style.display = "none";
+    return 0;
   }
 };
 
@@ -33,5 +42,5 @@ const popup = (type, mode, args = {}) => {
   };
   if (!popupTypes[type] || !mode) throw new Error("Invalid popup type or mode");
   if (!modes.includes(mode)) throw new Error("Invalid popup mode");
-  popupTypes[type](mode, args);
+  return popupTypes[type](mode, args);
 };
