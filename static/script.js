@@ -23,13 +23,19 @@ const fetchMovieInfo = async (movieTitle) => {
   
       return data;
     } catch (error) {
-      console.error('Erro ao buscar informações do filme:', error);
+      console.error('error: ', error);
       return null;
     }
   };
 
   const cleanMovieTitle = (title) => {
     if (title.includes(',')) return title.split(',')[0];
+    if (title.includes(':')) return title.split(':')[0];
+    if (title.includes('(')) return title.split('(')[0];
+    if (title.includes('.')) return title.split('.')[0];
+    if (title.includes('.')) return title.split('.')[0];
+    if (title.includes('-')) return title.split('-')[0];
+    if (title.includes(' . ')) return title.split(' . ')[0];
     return title.replace(/\s*\(\d+\)/, ''); 
   };
   
@@ -55,6 +61,7 @@ const fetchMovieInfo = async (movieTitle) => {
             moviesInfo.push(movie);
           } else {
             console.error(`Not found '${movieTitle}' -> ${cleanTitle}.`);
+            notLoadMsg(true)
           }
         }
       }
@@ -64,30 +71,57 @@ const fetchMovieInfo = async (movieTitle) => {
       return [];
     }
   };
+
+const noOpnion = () => {
+    callNewMovies();
+    notLoadMsg(false);
+    msgsDisplayBooks("I'm glad you told us that... let's start again but with something different now");
+
+
+ 
+  };
   
+
+const att = () =>{
+    const regenBtn = document.querySelector('.regen');
+    regenBtn.addEventListener('click',noOpnion);
+}
+
+const callNewMovies = () => {
+    clearMovies();
+    updateTitle("Getting movies");
+    const randomMovies = getModelMovies(3).then((moviesObj) => {
+        getMoviesInfo(moviesObj).then((moviesInfo) => {
+            updateTitle("Rate these movies");
+            movies = moviesInfo;
+            addNewMovies(movies);
+        });
+        
+    });       
+}
+
+const msgsDisplayBooks = (msg1) =>{
+    popupDisplayAndHide("up",wait=.4, {title: msg1}).then((res) => {
+        if (movies.length === 0) {
+            popupDisplayAndHide("up",wait=.3, {title: "We're getting everything ready for you!"}).then((res) => {
+                if (movies.length === 0) {
+                    popupDisplayAndHide("up",wait=.3, {title: "we are experiencing instability at the moment.. shall we try again?"}).then((res) => {
+                        clearMovies();
+                        msgsDisplayBooks("Starting all over again, let's hope it works out");
+                    });
+                }
+            });
+         
+        }
+    });
+}
 
 const init = () => {
     
     
+    callNewMovies();
+    msgsDisplayBooks("Hello Stranger!, Let's get started? ")
 
-    const randomMovies = getModelMovies(3).then((moviesObj) => {
-        getMoviesInfo(moviesObj).then((moviesInfo) => {
-            movies = moviesInfo;
-        });
-        console.log(moviesObj);
-    
-    
-    });        
-    popupDisplayAndHide("up",wait=.1, {title: "Hello Stranger"}).then((res) => {
-        popupDisplayAndHide("up",wait=.2, {title: "Let's get started?"}).then((res) => {
-            movies.forEach((movie) => {
-                addMovieToList(movie.title, movie.thumbnailUrl);
-                setTimeout(() => {
-                    
-                }, 300);
-            });
-        })
-    });
     
 
 };
@@ -95,5 +129,6 @@ const init = () => {
 document.addEventListener("DOMContentLoaded", () => {
     updateTitle("Getting movies");
     loadConfigs();
+    att();
     init();
 });

@@ -11,6 +11,15 @@ const popupDisplayAndHide = (type,wait, args = {}) => {
     });
 } 
 
+const notLoadMsg = (err) => {
+    const txt = document.querySelector(".movies-error")
+    if (err){
+        txt.style.display = "block";
+        txt.innerText = err;
+    }else{
+        txt.style.display = "none";
+    }
+};
 
 const up = (mode, args) => {
   const { title = "Default", load = false } = args;
@@ -101,4 +110,16 @@ const addMovieToList = (title, thumbnail) => {
     setTimeout(() => {
         movieElement.classList.remove('fade-in');
     }, 1000);
+}
+
+const addNewMovies = async (moviesObj) => {
+    const moviesInfo = await getMoviesInfo(moviesObj);
+    moviesInfo.forEach((movie) => {
+        addMovieToList(movie.title, movie.thumbnailUrl);
+    });
+}
+
+const clearMovies = () => {
+    const moviesList = document.querySelector('.movies-list');
+    moviesList.innerHTML = '';
 }

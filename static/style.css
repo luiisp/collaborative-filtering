@@ -168,6 +168,7 @@ main {
 .movies-error {
     text-align: center;
     font-family: "Mona-light";
+    display: none;
     color: #ff6b6b;
 }
 
@@ -176,6 +177,12 @@ main {
     text-decoration: underline;
     cursor: pointer;
 
+}
+
+.disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.5;
 }
 
 
