@@ -1,3 +1,4 @@
+movies = [];
 
 const loadConfigs = () => {
     configs = {
@@ -60,7 +61,6 @@ const fetchMovieInfo = async (movieTitle) => {
   
       return moviesInfo;
     } catch (error) {
-      console.error('Erro ao buscar informações dos filmes:', error);
       return [];
     }
   };
@@ -72,15 +72,21 @@ const init = () => {
 
     const randomMovies = getModelMovies(3).then((moviesObj) => {
         getMoviesInfo(moviesObj).then((moviesInfo) => {
-            console.log(moviesInfo);
-            updateTitle("Let's get started!");
+            movies = moviesInfo;
         });
         console.log(moviesObj);
     
     
     });        
     popupDisplayAndHide("up",wait=.1, {title: "Hello Stranger"}).then((res) => {
-        popupDisplayAndHide("up",wait=.2, {title: "Let's get started?"})
+        popupDisplayAndHide("up",wait=.2, {title: "Let's get started?"}).then((res) => {
+            movies.forEach((movie) => {
+                addMovieToList(movie.title, movie.thumbnailUrl);
+                setTimeout(() => {
+                    
+                }, 300);
+            });
+        })
     });
     
 

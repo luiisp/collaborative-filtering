@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,13 +9,54 @@
     <script src="{{ url_for('static', filename='script.js') }}"></script>
     <script src="{{ url_for('static', filename='utils.js') }}"></script>
     <info id="api-r" value="{{ api }}">
-    <info id="api-k" value="{{ key }}">
+        <info id="api-k" value="{{ key }}">
 </head>
 <body>
+    <style>
+        @font-face {
+            font-family: 'Mona-bold';
+            src: url("{{ url_for('static', filename='fonts/Mona-Sans/TTF/MonaSans-ExtraBold.ttf') }}") format('truetype');
+        }
+        @font-face {
+            font-family: 'Mona-regular';
+            src: url("{{ url_for('static', filename='fonts/Mona-Sans/TTF/MonaSans-Regular.ttf') }}") format('truetype');
+        }
+        @font-face {
+            font-family: 'Mona-light';
+            src: url("{{ url_for('static', filename='fonts/Mona-Sans/TTF/MonaSans-Light.ttf') }}") format('truetype');
+        }
+        body{
+            font-family: 'Mona-bold';
+        }
+
+    </style>
+    <img src="{{ url_for('static', filename='img/wind.png') }}" alt="bg" class="bg">
     <div class="up">
-        <h1 class="up-txt"></h1>
+        <h1 class="up-txt">Hello</h1>
     </div>
-    
+
+    <main>
+        <div class="movies">
+            <h1 class="movies-title">Select 3 of these films that you like or think you would like</h1>
+            <div class="cards">
+
+                <div class="movies-list">
+                  
+
+
+                </div>
+
+                
+                <button class="movies-btn">Next</button>
+                <a class="regen">I have no opinion on any of these</a>
+                <p class="movies-error">Some thumbnails were not loaded... The reason for this is because the ml-100k
+                    model is old. <a href="#">See about this issue on github</a></p>
+
+            </div>
+    </main>
+
+
 
 </body>
+
 </html>

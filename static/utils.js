@@ -31,15 +31,15 @@ const up = (mode, args) => {
   titleUp.innerText = title;
   if (mode === "in") {
     popup.style.display = "flex";
-    popup.classList.add("fade-in");
+    titleUp.classList.add("fade-in");
     setTimeout(() => {
-      popup.classList.remove("fade-in");
+        titleUp.classList.remove("fade-in");
     }, times.in);
     return times.in;
   } else if (mode === "out") {
-    popup.classList.add("fade-out");
+    titleUp.classList.add("fade-out");
     setTimeout(() => {
-      popup.classList.remove("fade-out");
+        titleUp.classList.remove("fade-out");
       popup.style.display = "none";
     }, times.out);
     return times.out;
@@ -71,4 +71,34 @@ const infoKey = (value) =>{
    }else{
        return undefined;
    }
+}
+const createMovieElement = (title, thumbnail) => {
+    const movieDiv = document.createElement('div');
+    movieDiv.classList.add('movie');
+
+    const img = document.createElement('img');
+    img.classList.add('movie-img');
+    img.src = `${thumbnail}`;
+    img.alt = title;
+
+    const titleDiv = document.createElement('div');
+    const h2 = document.createElement('h2');
+    h2.classList.add('movie-title');
+    h2.textContent = title;
+
+    titleDiv.appendChild(h2);
+    movieDiv.appendChild(img);
+    movieDiv.appendChild(titleDiv);
+
+    return movieDiv;
+}
+
+const addMovieToList = (title, thumbnail) => {
+    const moviesList = document.querySelector('.movies-list');
+    const movieElement = createMovieElement(title, thumbnail);
+    moviesList.appendChild(movieElement);
+    movieElement.classList.add('fade-in');
+    setTimeout(() => {
+        movieElement.classList.remove('fade-in');
+    }, 1000);
 }
