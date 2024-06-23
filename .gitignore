@@ -1,4 +1,4 @@
 /cf
 *.pyc
 __pycache__/
-main.py
+/cf
