@@ -6,7 +6,18 @@
 
 
 ## 📚 Oque é este projeto?
-Esse projeto é uma implementação de um sistema de recomendação de filmes baseado nos gostos do usuario utilizando **Collaborative Filtering**. O sistema foi desenvolvido em Python e utiliza a biblioteca Pandas para manipulação de dados e cálculos.
+Esse projeto é uma implementação de um sistema de recomendação de filmes baseado nos gostos do usuario utilizando **Collaborative Filtering**.
+
+> [!IMPORTANT]\
+> **O dataset utilizado nesse projeto é o [ml-100k coletado do MovieLens (Released 4/1998) pela Universidade de Minnesota](https://grouplens.org/datasets/movielens/100k/).**
+
+
+
+### ⌨️ Tecnologias
+- Python
+- JS
+- Flask
+- Surprise
 
 
 ### 🤔 Oque é Colaborative Filter?

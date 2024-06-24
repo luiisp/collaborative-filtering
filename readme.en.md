@@ -1,7 +1,18 @@
 # 🦠 Collaborative Filtering
 
+
+
 ## 📚 What is this project?
-This project is an implementation of a movie recommendation system based on user preferences using **Collaborative Filtering**. The system was developed in Python and uses the Pandas library for data manipulation and calculations.
+This project is an implementation of a movie recommendation system based on user preferences using **Collaborative Filtering**.
+
+> [!IMPORTANT]\
+> **The dataset used in this project is the [ml-100k collected from MovieLens (Released 4/1998) by the University of Minnesota](https://grouplens.org/datasets/movielens/100k/).**
+
+### ⌨️ Technologies
+- Python
+- JS
+- Flask
+- Surprise
 
 ### 🤔 What is Collaborative Filtering?
 Collaborative Filtering is a technique for recommending items based on the opinions of many users. The idea is that if user A liked item X and user B liked item Y, and user A and B have similar tastes, then user A will probably like item Y and user B will probably like item X.
