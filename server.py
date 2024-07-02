@@ -24,6 +24,13 @@ def process_data():
     count = request.args.get('count', 3, type=int)
     return jsonify(get_random_movie_ids(count))
 
+@app.route(f'{API_PATH}/movies/get-recommends', methods=['POST'])
+def get_recommends():
+    ids = request.json['ids']
+    print(ids)
+    return jsonify(get_random_movie_ids(3))
+
+    
 if __name__ == '__main__':
     print({
         'SERVER_PORT': SERVER_PORT,
